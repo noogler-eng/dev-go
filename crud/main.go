@@ -26,6 +26,30 @@ type Todo struct {
 	Completed bool   `json:"completed"`
 }
 
+func deleteReq(){
+	req, err := http.NewRequest(http.MethodDelete, "https://jsonplaceholder.typicode.com/todos/1", nil)
+	if err != nil {
+		panic(err)
+	}
+
+	client := http.Client{}
+	res, err_1 := client.Do(req)
+	if err_1 != nil {
+		panic(err_1)
+	}
+
+	defer res.Body.Close()
+	dataRes, err_2 := ioutil.ReadAll(res.Body)
+	if err_2 != nil {
+		panic(err_2)
+	}
+
+	fmt.Println("/////")
+	fmt.Println(res.Status)
+	fmt.Println(string(dataRes))
+	fmt.Println("/////")
+}
+
 func postReq() {
 	todo := Todo{
 		UserId:    1,
@@ -146,4 +170,5 @@ func main() {
 
 	postReq()
 	putReq()
+	deleteReq()
 }
